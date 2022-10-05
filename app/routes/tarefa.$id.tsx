@@ -11,7 +11,7 @@ interface LoadData {
 export const loader: LoaderFunction = async () => {
     
     return {
-        agendas: (await getListaDadosAgenda()).agendas
+        agendas: (await getListaDadosAgenda())
     }   
 };
 

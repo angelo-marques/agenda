@@ -9,8 +9,8 @@ datasource db {
 
 model Agendamento{
     id Int                @id @default(autoincrement()) @map("id")
-    title String          @map("title")
-    dataInicial DateTime  @default(now()) @map("start_time")
-    dataFinal DateTime    @map("end_time")
+    title String          @db.Text @map("title")
+    dataInicial DateTime  @map("start_time") @unique
+    dataFinal DateTime    @map("end_time") @unique
     @@map("appointments")
 }
