@@ -1,5 +1,9 @@
-import type { Agendamento } from "~/models/Agendamento";
+
+import type { FormFields } from "~/routes/admin/new";
 import { db } from "~/utils/db.server";
+import type { Agendamento } from "@prisma/client";
+
+
 //Lista todos os dados
 export async function getListaDadosAgenda(): Promise<Agendamento[]>{
     
@@ -62,4 +66,28 @@ export async function getDadosAgendaPeriodo(pesquisaDataInicial: Date, pesquisaD
         }
     });
 
+}
+
+export async function saveAgendamento(
+    data: FormFields,
+    id?: number,
+  ): Promise<Agendamento> {
+    if (id) {
+      return db.agendamento.update({
+        where: { id },
+        data,
+      });
+    }
+  
+    return db.agendamento.create({
+        data:{
+            title: data.title,
+            dataInicial: data.dataInicial,
+            dataFinal: data.dataFinal,
+        },
+    });
+}
+    
+export async function deleteCourse(id: number): Promise<Agendamento> {
+    return db.agendamento.delete({ where: { id } });
 }
