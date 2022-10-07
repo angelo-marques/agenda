@@ -1,4 +1,4 @@
-import type { Agendamento as AgendamentoType } from "@prisma/client";
+import type { Agenda as AgendamentoType } from "~/models/Agenda";
 import { Link, Outlet } from "@remix-run/react";
 import { AgendamentoUpdate } from "./AgendamentoUpdate";
 

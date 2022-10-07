@@ -2,12 +2,13 @@ import type { ZodError } from "zod";
 import { z } from "zod";
 
 
+
 // @ts-ignore
 export function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function date(date: Date): string {
+export function date(date: Date): Date {
   const config = {
     year: "numeric",
     month: "numeric",
@@ -22,6 +23,7 @@ export function date(date: Date): string {
 }
 
 export const Validator = z.object({
+    id: z.string(),
     title: z.string().min(6),
     dataInicial: z.string(),
     dataFinal: z.string(),
