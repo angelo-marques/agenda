@@ -1,4 +1,4 @@
-import type { ActionFunction, LoaderFunction} from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { useActionData, useLoaderData } from "@remix-run/react";
 import { ZodError } from "zod";
 import { Api } from "~/recursos";
@@ -7,27 +7,26 @@ import { AgendamentoForm } from "~/recursos/agenda/componentes/AgendamentoForm";
 import { extractValidationErrors, Validator } from "~/utils/validador";
 import { redirect } from "@remix-run/node";
 import type { Agendamento } from "@prisma/client";
-  
+
 export interface LoaderData {
   agendamento: Agendamento;
 }
-  
-export interface FormFields {  
-  id: number;            
-  title : string;
-  dataInicial : Date ;
-  dataFinal : Date;
+
+export interface FormFields {
+  id: number;
+  title: string;
+  dataInicial: Date;
+  dataFinal: Date;
 }
-  
+
 export interface ActionData {
   formErrors: Partial<FormFields>;
   formValues: FormFields;
 }
-  
+
 export const loader: LoaderFunction = async ({
   params,
 }): Promise<LoaderData | Response> => {
-
   const agendamento = await Api.getDadosAgendaPorId(params.agendaId);
 
   if (!agendamento) {
@@ -38,17 +37,17 @@ export const loader: LoaderFunction = async ({
 
   return { agendamento };
 };
-  
+
 export const action: ActionFunction = async ({
   request,
   params,
 }): Promise<ActionData | Response | void> => {
   const data = Object.fromEntries(await request.formData());
 
-try {
-  // @ts-ignore
+  try {
+    // @ts-ignore
     await Api.saveAgendamento(Validator.parse(data), Number(params.agendaId));
-   
+
     return redirect(".");
   } catch (error) {
     if (error instanceof ZodError) {
@@ -67,7 +66,7 @@ try {
     throw new Error(error.message);
   }
 };
-  
+
 export default function () {
   const { agendamento } = useLoaderData<LoaderData>();
   const actionData = useActionData<ActionData>();
@@ -85,14 +84,12 @@ export default function () {
       <AgendamentoForm actionData={actionData} agendamento={agendamento} />
     </>
   );
-  
 }
-  
+
 export function ErrorBoundary({ error }: { error: Error }) {
   return <Error error={error} />;
 }
-  
+
 export function CatchBoundary() {
   return <NotFound message="We couldn'd find a course with provided ID" />;
 }
-  

@@ -6,27 +6,27 @@ import type { ActionFunction } from "@remix-run/node";
 import { useActionData } from "@remix-run/react";
 import { AgendamentoForm } from "~/recursos/agenda/componentes/AgendamentoForm";
 
-export interface FormFields { 
-    id: number,             
-    title : string;
-    dataInicial : Date ;
-    dataFinal : Date;
+export interface FormFields {
+  id: number;
+  title: string;
+  dataInicial: Date;
+  dataFinal: Date;
 }
 
 export interface ActionData {
-  formErrors: Partial<FormFields> ;
+  formErrors: Partial<FormFields>;
   formValues: FormFields;
 }
 
 export const action: ActionFunction = async ({
   request,
-}): Promise<ActionData | Response | void > => {
+}): Promise<ActionData | Response | void> => {
   const data = Object.fromEntries(await request.formData());
 
   try {
     //@ts-ignore
     await Api.saveAgendamento(Validator.parse(data));
- 
+
     return redirect(".");
   } catch (error) {
     if (error instanceof ZodError) {
@@ -35,11 +35,10 @@ export const action: ActionFunction = async ({
         formValues: {
           id: parseInt(data.id.toString()),
           title: data.title as string,
-           dataInicial: data?.dataInicial.valueOf() as Date,
-           dataFinal: data?.dataFinal.valueOf() as Date, 
+          dataInicial: data?.dataInicial.valueOf() as Date,
+          dataFinal: data?.dataFinal.valueOf() as Date,
         },
       };
-     
     }
 
     // @ts-ignore
@@ -47,10 +46,8 @@ export const action: ActionFunction = async ({
   }
 };
 // @ts-ignore
-export default function() {
+export default function () {
   const actionData = useActionData<ActionData>();
- //@ts-ignore
- return <AgendamentoForm actionData = { actionData } />;
-
-
+  //@ts-ignore
+  return <AgendamentoForm actionData={actionData} />;
 }

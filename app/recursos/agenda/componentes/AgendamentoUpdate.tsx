@@ -1,6 +1,6 @@
 import type { Agenda } from "~/models/Agenda";
 import { Link } from "@remix-run/react";
-import { date } from "~/utils/validador"; 
+import { date } from "~/utils/validador";
 
 export interface AgendamentoProps {
   agendamento: Agenda;
@@ -19,7 +19,7 @@ export function AgendamentoUpdate({ agendamento }: AgendamentoProps) {
         <p className="text-right text-sm  text-gray-400">
           {date(agendamento.dataInicial)}
         </p>
-         <p className="text-right text-sm  text-gray-400">
+        <p className="text-right text-sm  text-gray-400">
           {date(agendamento.dataFinal)}
         </p>
       </Link>
