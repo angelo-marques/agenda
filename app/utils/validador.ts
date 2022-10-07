@@ -15,8 +15,8 @@ export function date(date: Date): number {
     hour12: false,
    
   };
-
-  return new Intl.DateTimeFormat('en-GB', config).format(new Date(date));
+  //@ts-ignore
+  return new Intl.DateTimeFormat('pt-br', config).format(new Date(date));
 }
 
 export const Validator = z.object({

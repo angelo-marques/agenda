@@ -26,7 +26,6 @@ export interface ActionData {
   
 export const loader: LoaderFunction = async ({
   params,
-  request
 }): Promise<LoaderData | Response> => {
 
   const agendamento = await Api.getDadosAgendaPorId(params.agendaId);

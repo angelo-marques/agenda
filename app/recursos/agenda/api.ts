@@ -79,10 +79,10 @@ export async function saveAgendamento(
     data: FormFields,
     agendaId?: any,
   ): Promise<Agendamento> {
+    
     if(data.dataInicial >= data.dataFinal){
         throw "Erro na aplicação";
     }
-   
 
     const parseDataInicial = new Date(data.dataInicial);
     const parseDataFinal = new Date(data.dataFinal);
@@ -90,47 +90,46 @@ export async function saveAgendamento(
     const dataFormatadaFinal = new Date(parseDataFinal.getFullYear(), parseDataFinal.getMonth(), parseDataFinal.getDay(), parseDataFinal.getHours(), 0, 0 );
 
     const dados = await getDadosAgendaPeriodo(dataFormatadaInicial, dataFormatadaFinal);
-    console.log(dados);
+   
     if(dados.length > 0){
         for(var i = 0; i <= dados.length; i++){
             if(dados[i].id != data.id){
-                console.log(dados[i].id);
                 if(dados[i].dataInicial.getMinutes() > 0 && data.dataInicial.getMinutes() > dados[i].dataInicial.getMinutes())
                 {
                     if( dados[i].dataInicial.getMinutes() - data.dataInicial.getMinutes() < 10){
-                        throw "Erro na aplicação";
+                        throw "Horário de inicio muito próximo de outro agendamento";
                     } 
                 }
                 if(dados[i].dataFinal.getMinutes() > 0 && data.dataFinal.getMinutes() > dados[i].dataFinal.getMinutes())
                 {
                     if( dados[i].dataFinal.getMinutes() - data.dataFinal.getMinutes() < 10){
-                        throw "Erro na aplicação";
+                        throw "Horário de final muito próximo de outro agendamento";
                     } 
                 }
             }
             
         }
     }
-    
     if (agendaId) {
-      return db.agendamento.update({
-        where: { id: Number(agendaId) },
-        data:{
-            title: data.title,
-            dataInicial: data.dataInicial,
-            dataFinal: data.dataFinal,
-        },
-      });
-    }else{
-        console.log("Entrou");
-        return db.agendamento.create({
-            data:{
-                title: data.title,
-                dataInicial: new Date(data.dataInicial),
-                dataFinal: new Date(data.dataFinal),
-            },
+      
+        return db.agendamento.update({
+          where: { id: Number(agendaId) },
+          data:{
+              title: data.title,
+              dataInicial: new Date(data.dataInicial),
+              dataFinal: new Date(data.dataFinal),
+          },
         });
-    }
+      }else{
+          return db.agendamento.create({
+              data:{
+                  title: data.title,
+                  dataInicial: new Date(data.dataInicial),
+                  dataFinal: new Date(data.dataFinal),
+              },
+          });
+      }
+    
 
    
 }

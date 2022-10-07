@@ -2,7 +2,8 @@
 import { string } from "zod";
 import type { Agenda } from "~/models/Agenda";
 import type { ActionData } from "~/routes/admin.tarefa/new";
-import { date } from "~/utils/validador"; 
+import { date } from "~/utils/validador";
+
 export interface AgendamentoFormProps {
   actionData: ActionData;
   agendamento: Agenda;
@@ -83,9 +84,9 @@ export function AgendamentoForm({ actionData, agendamento }: AgendamentoFormProp
                 id="dataInicial"
                 autoComplete="family-name"
                 defaultValue={
-                  actionData?.formValues?.dataInicial.toString() ?? agendamento?.dataInicial
+                  actionData?.formValues?.dataInicial.toString() ?? date(agendamento?.dataInicial)
                 }
-                key={actionData?.formValues?.dataInicial?.toString() ?? agendamento?.dataInicial}
+                key={actionData?.formValues?.dataInicial?.toString() ?? date(agendamento?.dataInicial)}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
               {actionData?.formErrors?.dataInicial?.toString() ? (
@@ -109,9 +110,9 @@ export function AgendamentoForm({ actionData, agendamento }: AgendamentoFormProp
                 // minLength={12}
                 autoComplete="family-name"
                 defaultValue={
-                  actionData?.formValues?.dataFinal?.toString() ?? agendamento?.dataFinal
+                  actionData?.formValues?.dataFinal?.toString() ?? date(agendamento?.dataFinal)
                 }
-                key={actionData?.formValues?.dataFinal?.toString() ?? agendamento?.dataFinal}
+                key={actionData?.formValues?.dataFinal?.toString() ?? date(agendamento?.dataFinal)}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
               {actionData?.formErrors?.dataFinal?.toString() ? (

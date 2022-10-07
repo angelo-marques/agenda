@@ -24,6 +24,7 @@ export const action: ActionFunction = async ({
   const data = Object.fromEntries(await request.formData());
 
   try {
+    //@ts-ignore
     await Api.saveAgendamento(Validator.parse(data));
  
     return redirect(".");
