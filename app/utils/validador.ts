@@ -8,18 +8,15 @@ export function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function date(date: Date): Date {
+export function date(date: Date): number {
   const config = {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
+    year: 'numeric', month: 'numeric', day: 'numeric',
+    hour: 'numeric', minute: 'numeric', second: 'numeric',
     hour12: false,
+   
   };
-  // @ts-ignore
-  return new Intl.DateTimeFormat("pt-br", config).format(new Date(date));
+
+  return new Intl.DateTimeFormat('en-GB', config).format(new Date(date));
 }
 
 export const Validator = z.object({

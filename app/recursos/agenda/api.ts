@@ -3,7 +3,7 @@ import type { FormFields } from "~/routes/admin.tarefa/new";
 import { db } from "~/utils/db.server";
 import type { Agendamento } from "@prisma/client";
 import { ZodError } from "zod";
-import {  extractValidationErrors } from "~/utils/validador";
+import {  date, extractValidationErrors } from "~/utils/validador";
 
 //Lista todos os dados
 export async function getListaDadosAgenda(): Promise<Agendamento[]>{
@@ -79,22 +79,39 @@ export async function saveAgendamento(
     data: FormFields,
     agendaId?: any,
   ): Promise<Agendamento> {
-    if(data.dataInicial > data.dataFinal){
+    if(data.dataInicial >= data.dataFinal){
         throw "Erro na aplicação";
     }
-    const dataTime = data.dataInicial;
-    dataTime.setDate(data.dataInicial.getDay() - 1);
-     
-    const dados = await getDadosAgendaPeriodo(dataTime, data.dataFinal);
-    for(var i = 0; i <= dados.length; i++){
-    if( dados[i].dataInicial.valueOf() - data.dataInicial.valueOf() < 20){
-        throw "Erro na aplicação";
-    } 
-    
- 
- }
+   
 
- 
+    const parseDataInicial = new Date(data.dataInicial);
+    const parseDataFinal = new Date(data.dataFinal);
+    const dataFormatadaInicial = new Date(parseDataInicial.getFullYear(), parseDataInicial.getMonth(), parseDataInicial.getDay(), parseDataInicial.getHours(), 0, 0);
+    const dataFormatadaFinal = new Date(parseDataFinal.getFullYear(), parseDataFinal.getMonth(), parseDataFinal.getDay(), parseDataFinal.getHours(), 0, 0 );
+
+    const dados = await getDadosAgendaPeriodo(dataFormatadaInicial, dataFormatadaFinal);
+    console.log(dados);
+    if(dados.length > 0){
+        for(var i = 0; i <= dados.length; i++){
+            if(dados[i].id != data.id){
+                console.log(dados[i].id);
+                if(dados[i].dataInicial.getMinutes() > 0 && data.dataInicial.getMinutes() > dados[i].dataInicial.getMinutes())
+                {
+                    if( dados[i].dataInicial.getMinutes() - data.dataInicial.getMinutes() < 10){
+                        throw "Erro na aplicação";
+                    } 
+                }
+                if(dados[i].dataFinal.getMinutes() > 0 && data.dataFinal.getMinutes() > dados[i].dataFinal.getMinutes())
+                {
+                    if( dados[i].dataFinal.getMinutes() - data.dataFinal.getMinutes() < 10){
+                        throw "Erro na aplicação";
+                    } 
+                }
+            }
+            
+        }
+    }
+    
     if (agendaId) {
       return db.agendamento.update({
         where: { id: Number(agendaId) },
@@ -104,17 +121,20 @@ export async function saveAgendamento(
             dataFinal: data.dataFinal,
         },
       });
+    }else{
+        console.log("Entrou");
+        return db.agendamento.create({
+            data:{
+                title: data.title,
+                dataInicial: new Date(data.dataInicial),
+                dataFinal: new Date(data.dataFinal),
+            },
+        });
     }
 
-    return db.agendamento.create({
-        data:{
-            title: data.title,
-            dataInicial: data.dataInicial,
-            dataFinal: data.dataFinal,
-        },
-    });
+   
 }
     
-export async function deleteCourse(id: number): Promise<Agendamento> {
+export async function deleteAgendamento(id: number): Promise<Agendamento> {
     return db.agendamento.delete({ where: { id } });
 }

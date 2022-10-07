@@ -16,7 +16,7 @@ export function AgendamentoForm({ actionData, agendamento }: AgendamentoFormProp
         <div className="bg-white py-6 px-4 space-y-6 sm:p-6">
           <div>
             <h3 className="text-lg leading-6 font-medium text-gray-900">
-              Atualizando evento
+             Agenda
             </h3>
           </div>
           <div className="grid grid-cols-6 gap-6">
@@ -25,21 +25,23 @@ export function AgendamentoForm({ actionData, agendamento }: AgendamentoFormProp
               <label
                 htmlFor="first-name"
                 className="block text-sm font-medium text-gray-700"
+                hidden
               >
                 Id
               </label>
               <input
+              hidden
                 type="number"
                 name="id"
                 id="id"
                 // minLength={6}
-                defaultValue={actionData?.formValues?.id.valueOf() ?? agendamento?.id.valueOf()}
-                key={actionData?.formValues?.id.valueOf() ?? agendamento?.id.valueOf()}
+                defaultValue={actionData?.formValues?.id ?? agendamento?.id}
+                key={actionData?.formValues?.id ?? agendamento?.id}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
-              {actionData?.formErrors?.id?.valueOf() ? (
+              {actionData?.formErrors?.id ? (
                 <p className="text-xs text-red-500 pt-2">
-                  {actionData.formErrors.id.valueOf()}
+                  {actionData.formErrors.id}
                 </p>
               ) : null}
             </div>
@@ -81,14 +83,14 @@ export function AgendamentoForm({ actionData, agendamento }: AgendamentoFormProp
                 id="dataInicial"
                 autoComplete="family-name"
                 defaultValue={
-                  actionData?.formValues?.dataInicial?.valueOf() ?? agendamento?.dataInicial?.valueOf()
+                  actionData?.formValues?.dataInicial.toString() ?? agendamento?.dataInicial
                 }
-                key={actionData?.formValues?.dataInicial?.valueOf() ?? agendamento?.dataInicial?.valueOf()}
+                key={actionData?.formValues?.dataInicial?.toString() ?? agendamento?.dataInicial}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
-              {actionData?.formErrors?.dataInicial?.valueOf() ? (
+              {actionData?.formErrors?.dataInicial?.toString() ? (
                 <p className="text-xs text-red-500 pt-2">
-                  { actionData.formErrors.dataInicial?.valueOf()}
+                  { actionData.formErrors.dataInicial?.toString()}
                 </p>
               ) : null}
             </div>
@@ -107,14 +109,14 @@ export function AgendamentoForm({ actionData, agendamento }: AgendamentoFormProp
                 // minLength={12}
                 autoComplete="family-name"
                 defaultValue={
-                  actionData?.formValues?.dataFinal?.valueOf() ?? agendamento?.dataFinal?.valueOf()
+                  actionData?.formValues?.dataFinal?.toString() ?? agendamento?.dataFinal
                 }
-                key={actionData?.formValues?.dataFinal?.valueOf() ?? agendamento?.dataFinal?.valueOf()}
+                key={actionData?.formValues?.dataFinal?.toString() ?? agendamento?.dataFinal}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
-              {actionData?.formErrors?.dataFinal?.valueOf() ? (
+              {actionData?.formErrors?.dataFinal?.toString() ? (
                 <p className="text-xs text-red-500 pt-2">
-                  {actionData.formErrors.dataFinal?.valueOf()}
+                  {actionData.formErrors.dataFinal?.toString()}
                 </p>
               ) : null}
             </div>
